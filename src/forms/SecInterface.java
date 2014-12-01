@@ -1,5 +1,3 @@
-package DBTEST01;
-
 import javax.swing.*;
 
 import java.awt.*;
