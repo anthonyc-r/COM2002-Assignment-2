@@ -1,4 +1,4 @@
-package DBTEST02;
+package forms;
 import javax.swing.*;
 
 import java.awt.*;

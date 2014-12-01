@@ -1,3 +1,5 @@
+package database;
+
 import java.sql.*;
 
 public class ConstructDB {
@@ -7,6 +9,7 @@ public class ConstructDB {
 		//Connect to DB
 
 		Connection conn = null;
+        Statement stmt = null;
 
 		try {
 			//Class.forName("org.gjt.mm.mysql.Driver").newInstance();
@@ -22,17 +25,17 @@ public class ConstructDB {
 
 		//Addresses
 		
-		String createAddress = 	"CREATE TABLE Address " +
+		String createAddress = 	"CREATE TABLE Address(" +
 								"(houseNo INTEGER not NULL, " +
 								"postcode VARCHAR[8] not NULL, " +
 								"street VARCHAR[30], " +
 								"district VARCHAR[30], " +
 								"city VARCHAR[30], " + 
-								"PRIMARY KEY (houseNo, postcode) )";
+								"PRIMARY KEY (houseNo, postcode));";
 
 		//Patients
 
-		String createPatient = 	"CREATE TABLE Patient " +
+		String createPatient = 	"CREATE TABLE Patient" +
 								"(patientID INTEGER not NULL, " +
 								"title VARCHAR[10], " +
 								"forename VARCHAR[30], " +
@@ -42,8 +45,8 @@ public class ConstructDB {
 								"houseNo INTEGER, " +
 								"postcode VARCHAR[8]" + 
 								"amountOwed FLOAT, " +
-								"PRIMARY KEY (patientID) " +
-								"FOREIGN KEY (houseNo, postcode) REFERENCES Address (houseNo, postcode) )";
+								"PRIMARY KEY (patientID), " +
+								"FOREIGN KEY (houseNo, postcode) REFERENCES Address (houseNo, postcode));";
 
 		//Care Plans	
 
@@ -53,27 +56,27 @@ public class ConstructDB {
 								"hygeineVisits INTEGER, " +
 								"repairs INTEGER, " +
 								"cost FLOAT, " + 
-								"PRIMARY KEY (planName) )";
+								"PRIMARY KEY (planName));";
 
 		//Subscriptions - linker between patients and Patient and CarePlan tables
 
-		String createSub =		"CREATE TABLE Subscription " +
+		String createSub =		"CREATE TABLE Subscription" +
 								"(patientID INTEGER not NULL, " +
 								"planName VARCHAR[30] not NULL, " +
 								"PRIMARY KEY (patientID, planName), " +
-								"FOREIGN KEY (patientID) REFERENCES Patient (patientID), " +
-								"FOREIGN KEY (planName) REFERENCES CarePlan (planName) )";
+								"FOREIGN KEY (patientID) REFERENCES Patient (patientID)," +
+								"FOREIGN KEY (planName) REFERENCES CarePlan (planName));";
 
 		//Appointments
 
-		String createAppoint = 	"CREATE TABLE Appointment " +
+		String createAppoint = 	"CREATE TABLE Appointment(" +
 								"(date DATE not NULL, " +
 								"startTime TIME, " +
 								"endTime TIME, " +
 								"patientID INTEGER, " +
 								"partner VARCHAR[30], " +
-								"PRIMARY KEY (date, start, partner) "; +
-								"FOREIGN KEY (patientID) REFERENCES Patient (patientID) )";
+								"PRIMARY KEY (date, start, partner)," +
+								"FOREIGN KEY (patientID) REFERENCES Patient (patientID));";
 
 		//Treatments
 
@@ -83,10 +86,16 @@ public class ConstructDB {
 								"startTime TIME, " +
 								"partner VARCHAR[30], " +
 								"cost FLOAT, " + 
-								"PRIMARY KEY (treatment) " +
-								"FOREIGN KEY (date, startTime, partner) REFERENCES Appointment (date, startTime, partner) )";
+								"PRIMARY KEY (treatment)," +
+								"FOREIGN KEY (date, startTime, partner) REFERENCES Appointment (date, startTime, partner));";
 
 		stmt.executeUpdate(createPatient);
+        stmt.executeUpdate(createAddress);
+        stmt.executeUpdate(createTreatment);
+        stmt.executeUpdate(createSub);
+        stmt.executeUpdate(createCarePlan);
+        stmt.executeUpdate(createAppoint);
+
 
 		} catch(SQLException ex) {
 			ex.printStackTrace();
