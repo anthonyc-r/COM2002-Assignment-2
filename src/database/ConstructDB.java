@@ -27,23 +27,23 @@ public class ConstructDB {
 		
 		String createAddress = 	"CREATE TABLE Address(" +
 								"(houseNo INTEGER not NULL, " +
-								"postcode VARCHAR[8] not NULL, " +
-								"street VARCHAR[30], " +
-								"district VARCHAR[30], " +
-								"city VARCHAR[30], " + 
+								"postcode VARCHAR(8) not NULL, " +
+								"street VARCHAR(30), " +
+								"district VARCHAR(30), " +
+								"city VARCHAR(30), " + 
 								"PRIMARY KEY (houseNo, postcode));";
 
 		//Patients
 
 		String createPatient = 	"CREATE TABLE Patient" +
 								"(patientID INTEGER not NULL, " +
-								"title VARCHAR[10], " +
-								"forename VARCHAR[30], " +
-								"surname VARCHAR[30], " +
+								"title VARCHAR(10), " +
+								"forename VARCHAR(30), " +
+								"surname VARCHAR(30), " +
 								"birthDate DATE, " +
-								"contactNo VARCHAR[10], " +
+								"contactNo VARCHAR(10), " +
 								"houseNo INTEGER, " +
-								"postcode VARCHAR[8]" + 
+								"postcode VARCHAR(8)" + 
 								"amountOwed FLOAT, " +
 								"PRIMARY KEY (patientID), " +
 								"FOREIGN KEY (houseNo, postcode) REFERENCES Address (houseNo, postcode));";
@@ -51,7 +51,7 @@ public class ConstructDB {
 		//Care Plans	
 
 		String createCarePlan = "CREATE TABLE CarePlan " +
-								"(planName VARCHAR[30] not NULL, " +
+								"(planName VARCHAR(30) not NULL, " +
 								"checkUps INTEGER, " +
 								"hygeineVisits INTEGER, " +
 								"repairs INTEGER, " +
@@ -62,7 +62,7 @@ public class ConstructDB {
 
 		String createSub =		"CREATE TABLE Subscription" +
 								"(patientID INTEGER not NULL, " +
-								"planName VARCHAR[30] not NULL, " +
+								"planName VARCHAR(30) not NULL, " +
 								"PRIMARY KEY (patientID, planName), " +
 								"FOREIGN KEY (patientID) REFERENCES Patient (patientID)," +
 								"FOREIGN KEY (planName) REFERENCES CarePlan (planName));";
@@ -74,17 +74,17 @@ public class ConstructDB {
 								"startTime TIME, " +
 								"endTime TIME, " +
 								"patientID INTEGER, " +
-								"partner VARCHAR[30], " +
+								"partner VARCHAR(30), " +
 								"PRIMARY KEY (date, start, partner)," +
 								"FOREIGN KEY (patientID) REFERENCES Patient (patientID));";
 
 		//Treatments
 
 		String createTreatment = "CREATE TABLE Treatment " +
-								"(treatName VARCHAR[30] not NULL, " +
+								"(treatName VARCHAR(30) not NULL, " +
 								"(date DATE not NULL, " +
 								"startTime TIME, " +
-								"partner VARCHAR[30], " +
+								"partner VARCHAR(30), " +
 								"cost FLOAT, " + 
 								"PRIMARY KEY (treatment)," +
 								"FOREIGN KEY (date, startTime, partner) REFERENCES Appointment (date, startTime, partner));";
