@@ -75,7 +75,7 @@ public class ConstructDB {
 								"endTime TIME, " +
 								"patientID INTEGER, " +
 								"partner VARCHAR(30), " +
-								"PRIMARY KEY (date, start, partner)," +
+								"PRIMARY KEY (date, startTime, partner)," +
 								"FOREIGN KEY (patientID) REFERENCES Patient (patientID));";
 
 		//Treatments
