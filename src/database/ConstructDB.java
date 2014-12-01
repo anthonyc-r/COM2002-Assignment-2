@@ -25,7 +25,7 @@ public class ConstructDB {
 
 		//Addresses
 		
-		String createAddress = 	"CREATE TABLE Address(" +
+		String createAddress = 	"CREATE TABLE Address" +
 								"(houseNo INTEGER not NULL, " +
 								"postcode VARCHAR(8) not NULL, " +
 								"street VARCHAR(30), " +
