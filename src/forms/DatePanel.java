@@ -25,6 +25,9 @@ class DatePanel extends JPanel{
     public String getYear(){
         return fields.get("year").getText();
     }
+    public String getText(){
+        return getYear()+"-"+getMonth()+"-"+getDay();
+    }
       
     private LinkedHashMap<String, JTextField> fields = null;
 }

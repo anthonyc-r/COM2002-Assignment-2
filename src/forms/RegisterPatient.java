@@ -21,7 +21,7 @@ public class RegisterPatient extends JPanel{
     public RegisterPatient(JFrame parentF){
 		labels = new LinkedHashMap<String, JLabel>();
         fields = new LinkedHashMap<String, JComponent>(); 
-        qHand = new QueryHandler("uname", "pwd");
+        qHand = new QueryHandler("team016", "eabb6f40");
 
         //Set parent
         this.parentF = parentF;
@@ -83,19 +83,56 @@ public class RegisterPatient extends JPanel{
 
         submitB.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                //Get vars
+                String title = ((JTextField) fields.get("title")).getText();
+                String fName = ((JTextField) fields.get("fName")).getText();
+                String sName = ((JTextField) fields.get("sName")).getText();
+                String hNum = ((JTextField) fields.get("hNum")).getText();
+                String bDate = ((DatePanel) fields.get("bDate")).getText();
+                String cNum = ((JTextField) fields.get("cNum")).getText();
+                String pCode = ((JTextField) fields.get("pCode")).getText();
+                //QUERIES
+                String getAddr = "SELECT * FROM Address WHERE houseNo = "+
+                    hNum+" AND postcode = "+ pCode+";";
+                
+                String dup = "SELECT * FROM Patient WHERE forename = "+
+                    fName+
+                    " AND surname = "+
+                    sName+
+                    " AND houseNo = "+
+                    hNum+
+                    " AND postcode = "+
+                    pCode+";";
+
+                String regPatient = "INSERT INTO Patient"+
+                    "(title, forename, surname, birthDate, contactNo, "+
+                    "houseNo, postcode, amountOwed)"+
+                    " VALUES("+
+                    title+", "+
+                    fName+", "+
+                    sName+", "+
+                    bDate+", "+
+                    cNum+", "+
+                    hNum+", "+
+                    pCode+", "+
+                    //A new patient doesn't owe any money.
+                    "0"+");";
+
                 //Grab data values
 
                 //Check whether hNum + pCode exist in db
-                String[] adrExRes = qHand.executeQuery(null);
+                String[] adrExRes = qHand.executeQuery(getAddr);
                 //Check whether fname+sname+hNum+pCode exists in db
-                String[] dupRes = qHand.executeQuery(null);
+                String[] dupRes = qHand.executeQuery(dup);
 
                 //IF address exists and patient doesn't, continue
                 if(adrExRes != null && dupRes == null){
                     //Insert new row
-                    qHand.executeUpdate(null);
-                    JOptionPane.showMessageDialog(parentF, "Patient "+
-                            "successfully registered!");
+                    int status = qHand.executeUpdate(regPatient);
+                    if(status >= 0){    
+                        JOptionPane.showMessageDialog(parentF, "Patient "+
+                                "successfully registered!");
+                    }
                     parentF.dispose();
                 }
                 //ELSE
