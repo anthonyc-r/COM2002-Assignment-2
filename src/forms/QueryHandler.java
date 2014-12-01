@@ -1,6 +1,6 @@
 package forms;
 
-
+import java.util.logging.Logger;
 import java.sql.*;
 
 public class QueryHandler{
@@ -12,33 +12,35 @@ public class QueryHandler{
 
 	public ResultSet executeQueryRS(String query) throws 
     	InstantiationException, IllegalAccessException{
-		try {
+		ResultSet rs = null;
+        try {
     		Class.forName("com.mysql.jdbc.Driver").newInstance();
     	} catch (ClassNotFoundException e) {
     		throw new RuntimeException("Can't find driver", e);
     	}
+        LOGGER.info("Loaded driver.");
 		try {
     		Connection conn = DriverManager.getConnection
-    				("jdbc:mysql://stusql.dcs.shef.ac.uk/?user=team016&password=eabb6f40");
+    				("jdbc:mysql://stusql.dcs.shef.ac.uk/team016?user=team016&password=eabb6f40");
     		if (conn!=null)
-    			System.out.println("Connection successful"); //Test for connection object
+    			System.out.println("Connection successful");
+
     		Statement stmt = conn.createStatement();
-    		ResultSet rs = null;
-    		if (stmt.execute(query))
-    			return rs;
-    		System.out.println("noRS"); //Test for result set object
-    		return null;
+    		LOGGER.info("Created statement");
+            rs = stmt.executeQuery(query);
+    		LOGGER.info("Got ResultSet");
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
 		}
 
-		return null;
+		return rs;
     }
 
     public String[] executeQuery(String qri){
         ResultSet rs = null;
+        LOGGER.info("Getting result set.");
         try{
             rs = executeQueryRS(qri);
         }catch(InstantiationException i){
@@ -46,22 +48,28 @@ public class QueryHandler{
         }catch(IllegalAccessException i){
             throw new RuntimeException("Illegal access ex thrown.", i);
         }
-        
+        LOGGER.info("Got result set.");
         try{
             //Execute query and get resset 
+            LOGGER.info("Getting meta data.");
             ResultSetMetaData rsmd = rs.getMetaData();
+            LOGGER.info("Got meta data");
             int noCols = rsmd.getColumnCount();
             String[] returnStr = new String[noCols];
+            LOGGER.info("Data indicates there are "+noCols+" columns.");
             //check if it's empty & ifnot move to first row
             if(!rs.next()){
                 //if so return null
+                LOGGER.info("Result set empty.");
                 return null;
             } 
             else{
-                for(int i=0; i<noCols; i++){
+                LOGGER.info("Transfering columns to String array.");
+                for(int i=1; i<=noCols; i++){
                     //get each column and put it into an array
-                    returnStr[i] = rs.getString(i);
+                    returnStr[i-1] = rs.getString(i);
                 }
+                LOGGER.info("String array formed.");
                 return returnStr;
                 //return array
             } 
@@ -88,7 +96,7 @@ public class QueryHandler{
         //Connect to database.
 		try {
     		Connection conn = DriverManager.getConnection("jdbc:mysql:"+
-                    "//stusql.dcs.shef.ac.uk/?"+
+                    "//stusql.dcs.shef.ac.uk/"+usr+"?"+
                     "user="+usr+
                     "&password="+pwd);
             //Check connection success
@@ -126,4 +134,6 @@ public class QueryHandler{
 
 
     private String pwd=null, usr=null;
+    private final static Logger LOGGER = Logger.getLogger(
+            QueryHandler.class.getName());
 }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class RegisterAddress extends JPanel{
     //testing
@@ -21,7 +22,7 @@ public class RegisterAddress extends JPanel{
         labels = new LinkedHashMap<String, JLabel>();
         fields = new LinkedHashMap<String, JTextField>(); 
         this.parentF = parentF;
-        qHand = new QueryHandler("uname", "pwd");
+        qHand = new QueryHandler("team016", "eabb6f40");
 
         setLayout(new GridLayout(0, 2));
         initFields();
@@ -72,22 +73,48 @@ public class RegisterAddress extends JPanel{
 
         submitB.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                //Check if it already exists...
-                String[] res = qHand.executeQuery(null);
-                //if not...
-                if(res == null){
-                    //insert into DB
-                    qHand.executeUpdate(null);
-                    JOptionPane.showMessageDialog(parentF, "Successfully "+
-                            "inserted new address.");
-                    parentF.dispose();
-                }
-                else{
-                    JOptionPane.showMessageDialog(parentF, "Address "+
-                            "already exists in database!");
+                if(validateInput()){
+                    insertValues();
                 }
             }
         });
+    }
+
+    private void insertValues(){
+        //Grab vars
+        String hNum = ((JTextField) fields.get("hNum")).getText();
+        String pCode = ((JTextField) fields.get("pCode")).getText();
+        String street = ((JTextField) fields.get("street")).getText();
+        String dist = ((JTextField) fields.get("dist")).getText();
+        String city = ((JTextField) fields.get("city")).getText();
+
+        //Queries...
+        String addrIns = "INSERT INTO Address VALUES('"+
+            hNum+"', '"+
+            pCode+"', '"+
+            street+"', '"+
+            dist+"', '"+
+            city+"');";
+        String addrExists = "SELECT * FROM Address WHERE houseNo = '"+
+                    hNum+"' AND postcode = '"+ pCode+"';"; 
+        //Check if it already exists...
+        String[] res = qHand.executeQuery(addrExists);
+        //if not...
+        if(res == null){
+            //insert into DB
+            qHand.executeUpdate(addrIns);
+            JOptionPane.showMessageDialog(parentF, "Successfully "+
+                    "inserted new address.");
+            parentF.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(parentF, "Address "+
+                    "already exists in database!");
+        }
+    }
+
+    private boolean validateInput(){
+        return true;
     }
 
     //vars
@@ -104,4 +131,8 @@ public class RegisterAddress extends JPanel{
     public static final int PANEL_WIDTH = 230;
     public static final int PANEL_HEIGHT = 245;
     public static final Dimension PREF_DIMS = new Dimension(230, 180);
+
+    //Logger
+    private final static Logger LOGGER = 
+        Logger.getLogger(RegisterAddress.class.getName());
 }
