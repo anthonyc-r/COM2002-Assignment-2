@@ -69,7 +69,7 @@ public class ConstructDB {
 
 		//Appointments
 
-		String createAppoint = 	"CREATE TABLE Appointment(" +
+		String createAppoint = 	"CREATE TABLE Appointment" +
 								"(date DATE not NULL, " +
 								"startTime TIME, " +
 								"endTime TIME, " +
@@ -82,7 +82,7 @@ public class ConstructDB {
 
 		String createTreatment = "CREATE TABLE Treatment " +
 								"(treatName VARCHAR(30) not NULL, " +
-								"(date DATE not NULL, " +
+								"date DATE not NULL, " +
 								"startTime TIME, " +
 								"partner VARCHAR(30), " +
 								"cost FLOAT, " + 
