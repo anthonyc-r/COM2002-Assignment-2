@@ -75,7 +75,7 @@ public class BookAppointment extends JPanel{
                 //Ensure nothing overlaps etc.
                 if(treatmentValid()){    
                     //IF empty add new entry with null FK
-                    if(((JTextField)fields.get("patID")).getText() == ""){
+                    if(((JTextField)fields.get("patID")).getText().equals("")){
                         qHand.executeUpdate(null);
                     }
                     //ELSE check that patientID exists
