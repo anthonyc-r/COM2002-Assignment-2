@@ -43,7 +43,7 @@ public class ConstructDB {
 								"birthDate DATE, " +
 								"contactNo VARCHAR(10), " +
 								"houseNo INTEGER, " +
-								"postcode VARCHAR(8)" + 
+								"postcode VARCHAR(8), " + 
 								"amountOwed FLOAT, " +
 								"PRIMARY KEY (patientID), " +
 								"FOREIGN KEY (houseNo, postcode) REFERENCES Address (houseNo, postcode));";
