@@ -13,12 +13,12 @@ public class QueryHandler{
     		Connection conn = DriverManager.getConnection
     				("jdbc:mysql://stusql.dcs.shef.ac.uk/?user=team016&password=eabb6f40");
     		if (conn!=null)
-    			System.out.println("Connection successful");
+    			System.out.println("Connection successful"); //Test for connection object
     		Statement stmt = conn.createStatement();
     		ResultSet rs = null;
     		if (stmt.execute(query))
     			return rs;
-    		System.out.println("noRS");
+    		System.out.println("noRS"); //Test for result set object
     		return null;
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
