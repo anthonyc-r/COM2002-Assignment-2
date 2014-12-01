@@ -24,7 +24,7 @@ public class SecInterface extends JFrame {
 			"Register Address"
 		};
 		JButton[] buttons = new JButton[buttonText.length];
-		JPanel [] listeners = {
+		final JPanel [] listeners = {
             null,
             new BookAppointment(frame),
             null,
