@@ -86,7 +86,7 @@ public class ConstructDB {
 								"startTime TIME, " +
 								"partner VARCHAR(30), " +
 								"cost FLOAT, " + 
-								"PRIMARY KEY (treatment)," +
+								"PRIMARY KEY (treatName)," +
 								"FOREIGN KEY (date, startTime, partner) REFERENCES Appointment (date, startTime, partner));";
 
 		stmt.executeUpdate(createPatient);
