@@ -14,7 +14,7 @@ public class ConstructDB {
 		try {
 			//Class.forName("org.gjt.mm.mysql.Driver").newInstance();
 
-			String DB="jdbc:mysql://stusql.dcs.shef.ac.uk/dbname?user=team016&password=eabb6f40";
+			String DB="jdbc:mysql://stusql.dcs.shef.ac.uk/team016?user=team016&password=eabb6f40";
 
 			conn = DriverManager.getConnection(DB);
 			System.out.println("Connected to database succesfully");
