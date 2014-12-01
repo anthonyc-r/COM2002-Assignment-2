@@ -36,7 +36,7 @@ public class ConstructDB {
 		//Patients
 
 		String createPatient = 	"CREATE TABLE Patient" +
-								"(patientID INTEGER not NULL, " +
+								"(patientID INTEGER not NULL AUTO_INCREMENT, " +
 								"title VARCHAR(10), " +
 								"forename VARCHAR(30), " +
 								"surname VARCHAR(30), " +
