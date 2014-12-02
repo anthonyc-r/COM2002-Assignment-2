@@ -1,7 +1,8 @@
-package DBTEST05;
+package forms;
 
 import java.util.logging.Logger;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class QueryHandler{
     
@@ -110,7 +111,7 @@ public class QueryHandler{
         Connection conn = null;
 		try {
     		conn = DriverManager.getConnection("jdbc:mysql:"+
-                    "//stusql.dcs.shef.ac.uk/?"+
+                    "//stusql.dcs.shef.ac.uk/"+usr+"?"+
                     "user="+usr+
                     "&password="+pwd);
             //Check connection success
@@ -133,6 +134,63 @@ public class QueryHandler{
     	}
 		return updtStatus;
     }
+
+
+    public String[][] executeQueryFull(String qri){
+    	Object[] connectionObjs = null;
+        ResultSet rs = null;
+        LOGGER.info("Getting result set.");
+        try{
+        	connectionObjs = executeQueryRS(qri);
+            rs = (ResultSet)connectionObjs[1];
+        }catch(InstantiationException i){
+            throw new RuntimeException("Instantiation ex thrown.", i);
+        }catch(IllegalAccessException i){
+            throw new RuntimeException("Illegal access ex thrown.", i);
+        }
+        LOGGER.info("Got result set."); 
+        ArrayList<String[]> AryReturnStr = new ArrayList<String[]>();
+        try{
+            //Execute query and get resset 
+            LOGGER.info("Getting meta data.");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            LOGGER.info("Got meta data");
+            int currentRow = 0;
+            int noCols = rsmd.getColumnCount();
+            LOGGER.info("Data indicates there are "+noCols+" columns.");
+            //check if it's empty & ifnot move to first row
+            if(!rs.next()){
+                //if so return null
+                LOGGER.info("Result set empty.");
+                return null;
+            } 
+            do{
+                String[] rowStr = new String[noCols];
+                LOGGER.info("Transfering columns to String array.");
+                for(int i=1; i<=noCols; i++){
+                    //get each column and put it into an array
+                    rowStr[i-1] = rs.getString(i);
+                }
+                AryReturnStr.add(rowStr);
+                currentRow++;
+                LOGGER.info("String array formed.");
+            }while(rs.next());
+            //return array 
+        }catch(SQLException e){
+			System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+		} finally {
+			try {
+				Connection conn = (Connection)connectionObjs[0];
+				conn.close();
+			} catch (SQLException e) {
+				//ignore
+			}
+		}
+        return (String[][])AryReturnStr.toArray();
+    }
+
 
 	public void closeConn(Connection conn, Statement stmt, ResultSet rs) {
 		try {

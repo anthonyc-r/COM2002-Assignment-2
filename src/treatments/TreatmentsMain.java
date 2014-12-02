@@ -23,22 +23,46 @@ public class TreatmentsMain extends JPanel{
         pSelPane = new PatientSelectionPane(parentF, treatTable);
         submitButton = new JButton("Paid");
 
+        costDueL = new JLabel("Cost due:");
+        totalL = new JLabel("Total sum:");
+
+        costDueF = new JTextField(4);
+        totalF = new JTextField(4);
+        //Make them uneditable
+        costDueF.setEditable(false);
+        totalF.setEditable(false);
+
         //Abs positioning.
         setLayout(null);
 
         add(pSelPane);
         add(treatTable);
         add(submitButton);
+        add(totalL);
+        add(totalF);
+        add(costDueL);
+        add(costDueF);
+
+        //Set lsit
+        setListeners();
 
         //setbounds
         pSelPane.setBounds(10, 10, 240, 40);
         treatTable.setBounds(10, 50, 240, 410); 
         submitButton.setBounds(10, 460, 80, 30);
+        totalL.setBounds(100, 460, 80, 15);
+        costDueL.setBounds(100, 475, 80, 15);
+        totalF.setBounds(165, 460, 80, 15);
+        costDueF.setBounds(165, 475, 80, 15);
     }
 
     private void updateCostsDue(){
+        //Get vars
+        String patID = pSelPane.getPatientID();
         //Set cost due in patient to 0.
-        String updt = "";
+        String updt = "UPDATE Patient "+
+                        "SET amountDue = 0 "+
+                        "WHERE patientID = '"+patID+"';";
         int status = qHand.executeUpdate(updt);
         if(status >= 0){    
             JOptionPane.showMessageDialog(parentF, "Amount owed by patient"+
@@ -61,6 +85,10 @@ public class TreatmentsMain extends JPanel{
     private TreatmentsTable treatTable = null;
     private JFrame parentF = null; 
     private JButton submitButton = null;
+    private JLabel totalL = null;
+    private JLabel costDueL = null;
+    private JTextField totalF = null;
+    private JTextField costDueF = null;
     
     private QueryHandler qHand = null;
     

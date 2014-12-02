@@ -21,7 +21,7 @@ public class BookAppointment extends JPanel{
         labels = new LinkedHashMap<String, JLabel>();
         fields = new LinkedHashMap<String, JComponent>(); 
         this.parentF = parentF;
-        qHand = new QueryHandler("uname", "pwd");
+        qHand = new QueryHandler("team016", "eabb6f40");
 
         setLayout(new GridLayout(0, 2));
         initFields();
@@ -72,24 +72,48 @@ public class BookAppointment extends JPanel{
 
         submitB.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                //Get variables
+                String date = ((DatePanel) fields.get("date")).getText();
+                String start = ((TimePanel) fields.get("start")).getSQLTime();
+                String end = ((TimePanel) fields.get("end")).getSQLTime();
+                String patID = ((JTextField) fields.get("patID")).getText();
+                String partn = ((JTextField) fields.get("partn")).getText();
+
+                String nullEntry = "INSERT INTO Appointment VALUES("+
+                    "'"+date+"', '"+start+"' ,'"+end+"', "
+                    +"NULL, '"+partn+"');";
+                String patExists = "SELECT * FROM Patient WHERE "+
+                    "patientID = '"+patID+"';";
+                String insAppointment = "INSERT INTO Appointment VALUES("+
+                    "'"+date+"', '"+start+"' ,'"+end+"', '"
+                    +patID+"', '"+partn+"');";
+
                 //Ensure nothing overlaps etc.
-                if(treatmentValid()){    
+                if(treatmentValid(date, start, end, patID, partn)){    
                     //IF empty add new entry with null FK
                     if(((JTextField)fields.get("patID")).getText().equals("")){
-                        qHand.executeUpdate(null);
+                        qHand.executeUpdate(nullEntry);
                     }
                     //ELSE check that patientID exists
                     else{
                         //IF exists update table
-                        String[] patient = qHand.executeQuery(null);
+                        String[] patient = qHand.executeQuery(patExists);
                         if(patient != null){
-                            qHand.executeQuery(null);
-                            JOptionPane.showMessageDialog(parentF,
+                            int status = qHand.executeUpdate(insAppointment);
+                            if(status >= 0){
+                                JOptionPane.showMessageDialog(parentF,
                                     "Successfully booked new appointment.");
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(parentF,
+                                        "An error occured inserting entry");
+                            }
                         }
                         //ELSE show warning
-                        JOptionPane.showMessageDialog(parentF, "Cannot "+
-                                "find patient in database.");
+                        else{
+                            JOptionPane.showMessageDialog(parentF, "Cannot"+
+                                " find patient in database.");
+                        }
                     }
                 }
                 else{
@@ -100,9 +124,23 @@ public class BookAppointment extends JPanel{
         });
     }
     
-    private boolean treatmentValid(){
+    private boolean treatmentValid(String date, String start, String end,
+            String patID, String partner){
+        //Get hour part of times.
+        int startHour = Integer.valueOf(start.split(":")[0]);
+        int endHour = Integer.valueOf(end.split(":")[0]);
+        
         //Ensure nothing overlaps
-        return false;
+        String overlap = "SELECT * FROM Appointment WHERE "+
+            "date = '"+date+"' AND partner = '"+partner+"' AND "+
+            "startTime <= '"+end+"' AND endTime >= '"+start+"';";
+        String[] overlapRes = qHand.executeQuery(overlap);
+        if(overlapRes == null && startHour > 9 && endHour < 17){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     //vars
