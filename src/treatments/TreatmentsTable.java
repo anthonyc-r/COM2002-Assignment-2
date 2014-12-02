@@ -34,8 +34,7 @@ public class TreatmentsTable extends JPanel{
             rs = qHand.executeQueryRS(relTreats);
 
 
-        //Create new Object[3][x] table listing treatment name and cost
-        //and a new Boolean(false) object for the tick box
+        //Create new Object[2][x] table listing treatment name and cost
         }catch(InstantiationException e){
             throw new RuntimeException("Instantiation ex");
         }catch(IllegalAccessException e){
@@ -52,8 +51,8 @@ public class TreatmentsTable extends JPanel{
         //repaint
     }
 
-    String[] colNames = {"Treatment", "Cost", "Paid"};
-    Object[][] data = {{"N/A", "N/A", "N/A"}};
+    String[] colNames = {"Treatment", "Cost"};
+    Object[][] data = {{"N/A", "N/A"}};
 
     private JFrame parentF = null;
     private JTable treatTable = null;

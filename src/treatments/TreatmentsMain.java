@@ -21,7 +21,7 @@ public class TreatmentsMain extends JPanel{
         this.parentF = parentF;
         treatTable = new TreatmentsTable(parentF);
         pSelPane = new PatientSelectionPane(parentF, treatTable);
-        submitButton = new JButton("Submit");
+        submitButton = new JButton("Paid");
 
         //Abs positioning.
         setLayout(null);
@@ -39,7 +39,14 @@ public class TreatmentsMain extends JPanel{
     private void updateCostsDue(){
         //Set cost due in patient to 0.
         String updt = "";
-        qHand.executeUpdate(updt);
+        int status = qHand.executeUpdate(updt);
+        if(stauts >= 0){    
+            JOptionPane.showMessageDialog(parentF, "Amount owed by patient"+
+                    "set to 0.00");
+        }else{
+            throw new RuntimeException("Query handler indicates error in "+
+                    "update.");
+        }
     }
 
     private void setListeners(){
