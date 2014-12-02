@@ -1,4 +1,4 @@
-package forms;
+package DBTEST05;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,12 +76,24 @@ public class SubscribePatient extends JPanel{
             public void actionPerformed(ActionEvent e){
                 //Get patID + plan
                 //Check patID exist in Patient
-                String[] IDExists = qHand.executeQuery(null);
+            	String patID = ((JTextField)fields.get("patID")).getText();
+                String[] IDExists = qHand.executeQuery(
+                		"SELECT 1 FROM Patient WHERE patientID = '"+
+                			patID+"';"
+                	);
                 //Check plan exists in CarePlan(It should)
-                String[] pExists = qHand.executeQuery(null);
+                String plan = ((JTextField)fields.get("plan")).getText();
+                String[] pExists = qHand.executeQuery(
+                		"SELECT 1 FROM CarePlan WHERE planName = '"+
+                			plan+"';"
+                	);
                 if(IDExists != null && pExists != null){    
                     //Insert into db
-                    qHand.executeUpdate(null);
+                    qHand.executeUpdate(
+                    		"INSERT INTO Subscription VALUES ('"+
+                    			patID+"', "+
+                    			plan+"');"
+                    	);
                     JOptionPane.showMessageDialog(parentF, "Patient "+
                             "successfully subscribed.");
                     parentF.dispose();
