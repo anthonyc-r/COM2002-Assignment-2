@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.sql.*;
 
 public class RecordTreatment extends JPanel{
     //testing
@@ -21,7 +22,7 @@ public class RecordTreatment extends JPanel{
         labels = new LinkedHashMap<String, JLabel>();
         fields = new LinkedHashMap<String, JComponent>(); 
         this.parentF = parentF;
-        qHand = new QueryHandler("uname", "pwd");
+        qHand = new QueryHandler("team016", "eabb6f40");
 
         setLayout(new GridLayout(0, 2));
         initFields();
@@ -31,7 +32,7 @@ public class RecordTreatment extends JPanel{
     }
 
     private void initFields(){
-        //Ket the labels done first
+        //Get the labels done first
         labels.put("treat", new JLabel("Treatment:"));
         labels.put("cost", new JLabel("Cost:"));
         labels.put("date", new JLabel("Date(DDMMYYYY):"));
@@ -73,20 +74,40 @@ public class RecordTreatment extends JPanel{
         submitB.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 //Check date, start, partner combo exists in Appointment
-                String[] res = qHand.executeQuery(null);
-                //if it does continue..
-                if(res != null){
-                    qHand.executeUpdate(null);
-                    JOptionPane.showMessageDialog(parentF, "Treatment "+
-                            "registered!");
-                    parentF.dispose();
-                }
-                else{
-                   JOptionPane.showMessageDialog(parentF, "No appointment "+
-                           "exists at this time.");
-                }
+                recordTreatment();
             }
         });
+    }
+    
+    private void recordTreatment(){
+        //Get vars
+        String tName = ((JTextField) fields.get("treat")).getText();
+        String cost = ((JTextField) fields.get("cost")).getText();
+        String date = ((DatePanel) fields.get("date")).getText();
+        String sTime = (((TimePanel) fields.get("start")).getHours() + ":" + ((TimePanel) fields.get("start")).getMinutes());
+        String partner = ((JTextField) fields.get("partn")).getText();
+
+        //QUERIES
+        String checkApp = "SELECT * FROM Appointment WHERE date = '" +
+                date + "' AND startTime = '"+ sTime + "' AND partner = '" + partner + "';";
+        
+        if (qHand.executeQuery(checkApp) != null) {
+        	String recTreatment = "INSERT INTO Treatment"+
+        			"(treatName, date, startTime, partner, cost)" +
+        			" VALUES('"+
+        			tName + "', '"+
+        			date + "', '"+
+        			sTime + "', '"+
+        			partner + "', '"+
+        			cost + "');";
+            JOptionPane.showMessageDialog(parentF, recTreatment);
+        	qHand.executeUpdate(recTreatment);
+            JOptionPane.showMessageDialog(parentF, "Treatment "+
+                    "successfully recorded!");
+            parentF.dispose();
+        } else {
+        	System.out.println("Treatment entered does not correspond with existing appointment with matching date, start time and partner");
+        }
     }
     
     //vars
