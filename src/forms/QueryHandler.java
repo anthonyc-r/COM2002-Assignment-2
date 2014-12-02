@@ -1,4 +1,4 @@
-package forms;
+package DBTEST05;
 
 import java.util.logging.Logger;
 import java.sql.*;
@@ -9,8 +9,8 @@ public class QueryHandler{
         this.usr = uname;
         this.pwd = pwd;
     }
-
-	public ResultSet executeQueryRS(String query) throws 
+    
+	public Object[] executeQueryRS(String query) throws 
     	InstantiationException, IllegalAccessException{
 		ResultSet rs = null;
         try {
@@ -19,9 +19,10 @@ public class QueryHandler{
     		throw new RuntimeException("Can't find driver", e);
     	}
         LOGGER.info("Loaded driver.");
+        Connection conn = null;
 		try {
-    		Connection conn = DriverManager.getConnection
-    				("jdbc:mysql://stusql.dcs.shef.ac.uk/team016?user=team016&password=eabb6f40");
+    		conn = DriverManager.getConnection
+    				("jdbc:mysql://stusql.dcs.shef.ac.uk/"+usr+"?user="+usr+"&password="+pwd);
     		if (conn!=null)
     			System.out.println("Connection successful");
 
@@ -34,28 +35,34 @@ public class QueryHandler{
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
 		}
-
-		return rs;
+		Object[] connectionObjs = new Object[] {
+				conn,
+				rs
+		};
+		return connectionObjs;
     }
 
     public String[] executeQuery(String qri){
+    	Object[] connectionObjs = null;
         ResultSet rs = null;
         LOGGER.info("Getting result set.");
         try{
-            rs = executeQueryRS(qri);
+        	connectionObjs = executeQueryRS(qri);
+            rs = (ResultSet)connectionObjs[1];
         }catch(InstantiationException i){
             throw new RuntimeException("Instantiation ex thrown.", i);
         }catch(IllegalAccessException i){
             throw new RuntimeException("Illegal access ex thrown.", i);
         }
-        LOGGER.info("Got result set.");
+        LOGGER.info("Got result set."); 
+        String[] returnStr = null;
         try{
             //Execute query and get resset 
             LOGGER.info("Getting meta data.");
             ResultSetMetaData rsmd = rs.getMetaData();
             LOGGER.info("Got meta data");
             int noCols = rsmd.getColumnCount();
-            String[] returnStr = new String[noCols];
+            returnStr = new String[noCols];
             LOGGER.info("Data indicates there are "+noCols+" columns.");
             //check if it's empty & ifnot move to first row
             if(!rs.next()){
@@ -70,16 +77,21 @@ public class QueryHandler{
                     returnStr[i-1] = rs.getString(i);
                 }
                 LOGGER.info("String array formed.");
-                return returnStr;
                 //return array
             } 
         }catch(SQLException e){
 			System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
+		} finally {
+			try {
+				Connection conn = (Connection)connectionObjs[0];
+				conn.close();
+			} catch (SQLException e) {
+				//ignore
+			}
 		}
-        //Something went wrong :^(
-        throw new RuntimeException("Something went wrong :^(");
+        return returnStr;
     }
 
     public int executeUpdate(String updt){
@@ -94,9 +106,11 @@ public class QueryHandler{
             throw new RuntimeException("Illegal access ex thrown.", i);
         }
         //Connect to database.
+        int updtStatus = -1;
+        Connection conn = null;
 		try {
-    		Connection conn = DriverManager.getConnection("jdbc:mysql:"+
-                    "//stusql.dcs.shef.ac.uk/"+usr+"?"+
+    		conn = DriverManager.getConnection("jdbc:mysql:"+
+                    "//stusql.dcs.shef.ac.uk/?"+
                     "user="+usr+
                     "&password="+pwd);
             //Check connection success
@@ -105,22 +119,27 @@ public class QueryHandler{
 
     		Statement stmt = conn.createStatement();
     		//Run the update and get the return
-            int updtStatus = stmt.executeUpdate(updt);
-            return updtStatus;
-
+            updtStatus = stmt.executeUpdate(updt);
 		}catch(SQLException e){
 			System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
-		}
-        //Something went wrong... Return non-sensible value
-		return -1;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				//ignore
+			}
+    	}
+		return updtStatus;
     }
 
 	public void closeConn(Connection conn, Statement stmt, ResultSet rs) {
 		try {
-            rs.close();
-            stmt.close();
+			if (rs!=null)
+				rs.close();
+			if (stmt!=null)
+				stmt.close();
             conn.close();
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
