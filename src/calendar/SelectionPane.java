@@ -11,13 +11,23 @@ public class SelectionPane extends JPanel{
     public SelectionPane(JFrame parentF, CalendarPane cPane){
         this.parentF = parentF;
         this.cPane = cPane;
+        
+        setLayout(new FlowLayout());
+
+        initComponents();
+        addComponents();
+        initListeners();
     }
 
     public void initComponents(){
         dentButton = new JRadioButton("Dentist");
         hygButton = new JRadioButton("Hygienist");
-        monthField = new JTextField();
-        yearField = new JTextField();
+        monthField = new JTextField(2);
+        yearField = new JTextField(4);
+
+        buttonGroup = new ButtonGroup();
+        buttonGroup.add(dentButton);
+        buttonGroup.add(hygButton);
 
         //Default dent is selected
         dentButton.setSelected(true);
@@ -27,6 +37,15 @@ public class SelectionPane extends JPanel{
         goButton = new JButton("Go!");
 
 
+    }
+
+    private void addComponents(){
+        add(dentButton);
+        add(hygButton);
+        add(dateLabel);
+        add(monthField);
+        add(yearField);
+        add(goButton);
     }
 
     private void initListeners(){
@@ -52,7 +71,7 @@ public class SelectionPane extends JPanel{
         //Set all instance variables appropriately
         //Indicate an update is needed.
         month = monthField.getText();
-        year = monthField.getText();
+        year = yearField.getText();
         if(dentButton.isSelected()){
             partner = Partner.DENTIST;
         }

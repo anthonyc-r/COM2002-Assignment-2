@@ -40,6 +40,16 @@ public class CalendarPane extends JPanel{
         this.partner = ptnr;
         this.month = month;
         this.year = year;
+
+
+        cal.set(Integer.valueOf(year), Integer.valueOf(month)-1, 1);
+        System.out.println(cal.getTime());
+        removeAll();
+        initComponents();
+        addComponents();
+        addActionListeners();
+        revalidate();
+        repaint();
     }
 
     private void initComponents(){
@@ -63,8 +73,8 @@ public class CalendarPane extends JPanel{
     }
 
     private void addComponents(){
-        cal.set(Calendar.DAY_OF_MONTH, 0);
-        int offset = cal.get(Calendar.DAY_OF_WEEK);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        int offset = cal.get(Calendar.DAY_OF_WEEK) - 1;
         int numButtons = dayButtons.length;
         System.out.println(offset);
         //Add labels.
