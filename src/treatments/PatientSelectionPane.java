@@ -42,6 +42,11 @@ public class PatientSelectionPane extends JPanel{
     }
 
 
+    public String getPatientID(){
+        return patientField.getText();
+    }
+
+
     //fields
     private JLabel patientLabel = null;
     private JTextField patientField = null;

@@ -30,6 +30,9 @@ public class TreatmentsMain extends JPanel{
         add(treatTable);
         add(submitButton);
 
+        //Set lsit
+        setListeners();
+
         //setbounds
         pSelPane.setBounds(10, 10, 240, 40);
         treatTable.setBounds(10, 50, 240, 410); 
@@ -37,8 +40,12 @@ public class TreatmentsMain extends JPanel{
     }
 
     private void updateCostsDue(){
+        //Get vars
+        String patID = pSelPane.getPatientID();
         //Set cost due in patient to 0.
-        String updt = "";
+        String updt = "UPDATE Patient "+
+                        "SET amountDue = 0 "+
+                        "WHERE patientID = '"+patID+"';";
         int status = qHand.executeUpdate(updt);
         if(status >= 0){    
             JOptionPane.showMessageDialog(parentF, "Amount owed by patient"+
