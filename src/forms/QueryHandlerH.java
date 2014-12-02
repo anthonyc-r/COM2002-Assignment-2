@@ -73,14 +73,15 @@ public class QueryHandler{
             } 
             else{
                 LOGGER.info("Transfering columns to String array.");
-                while (rs.next()) {
+                do {
                 	String[] row = new String[noCols];
                 	for(int i=1; i<=noCols; i++){
                 		//get each column and put it into an array
                 		row[i-1] = rs.getString(i);
                 	}
                 	table.add(row);
-                }
+                } while (rs.next());
+
                 int length = table.size();
                 returnStr = new String[length][noCols];
                 for (int i=0; i<length; i++) {
