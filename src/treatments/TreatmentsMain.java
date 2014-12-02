@@ -3,6 +3,7 @@ package treatments;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import forms.QueryHandler;
 
 public class TreatmentsMain extends JPanel{
 
@@ -35,9 +36,26 @@ public class TreatmentsMain extends JPanel{
         submitButton.setBounds(10, 460, 80, 30);
     }
 
+    private void updateCostsDue(){
+        //Set cost due in patient to 0.
+        String updt = "";
+        qHand.executeUpdate(updt);
+    }
+
+    private void setListeners(){
+        submitButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                updateCostsDue();
+            }
+        });
+    }
+
     private PatientSelectionPane pSelPane = null;
     private TreatmentsTable treatTable = null;
     private JFrame parentF = null; 
     private JButton submitButton = null;
+    
+    private QueryHandler qHand = null;
+    
     public static final Dimension PREF_DIMS = new Dimension(280, 540);
 }
