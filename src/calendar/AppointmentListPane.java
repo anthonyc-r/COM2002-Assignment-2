@@ -3,9 +3,11 @@ package calendar;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import enums.Partner;
 
 public class AppointmentListPane extends JPanel{
-    public AppointmentListPane(JFrame parentF, int day, int month, int year){
+    public AppointmentListPane(JFrame parentF, int day, int month, 
+            int year, Partner partner){
         this.parentF = parentF;
         this.day = day;
         this.month = month;

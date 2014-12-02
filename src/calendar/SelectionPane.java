@@ -8,8 +8,9 @@ import java.awt.event.*;
 
 public class SelectionPane extends JPanel{
     
-    public SelectionPane(JFrame parentF){
+    public SelectionPane(JFrame parentF, CalendarPane cPane){
         this.parentF = parentF;
+        this.cPane = cPane;
     }
 
     public void initComponents(){
@@ -33,6 +34,7 @@ public class SelectionPane extends JPanel{
             public void actionPerformed(ActionEvent e){
                 if(validateInput()){
                     setVariables();
+                    cPane.update(partner, month, year);
                 }
                 else{
                     JOptionPane.showMessageDialog(parentF, "Not all inputs"+
@@ -57,12 +59,8 @@ public class SelectionPane extends JPanel{
         else{
             partner = Partner.HYGIENIST;
         }
-        updateRequired = true;
     }
 
-    public void resetUpdateRequired(){
-        updateRequired = false;
-    }
 
     public String getSelectedMonth(){
         return month;
@@ -76,9 +74,6 @@ public class SelectionPane extends JPanel{
         return partner;
     }
 
-    public boolean updateRequired(){
-        return updateRequired;
-    }
 
     private JFrame parentF = null;
     private JLabel dateLabel = null;
@@ -88,6 +83,8 @@ public class SelectionPane extends JPanel{
     private JTextField monthField = null;
     private JTextField yearField = null;
     private JButton goButton = null;
+
+    private CalendarPane cPane = null;
     
     private Partner partner = null;
     private String month = null;

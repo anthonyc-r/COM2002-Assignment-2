@@ -33,9 +33,11 @@ public class CalendarPane extends JPanel{
 
         initComponents();
         addComponents();
+        addActionListeners();
     }
 
-    public void setDate(String month, String year){
+    public void update(Partner ptnr, String month, String year){
+        this.partner = ptnr;
         this.month = month;
         this.year = year;
     }
@@ -80,22 +82,25 @@ public class CalendarPane extends JPanel{
         }
     }
 
-    //Can't do it like this...
-    /*private void addActionListeners(){
+    private void addActionListeners(){
         int days = dayButtons.length;
         for(int i=0; i<days; i++){
             dayButtons[i].addActionListener(new ActionListener(){
-                public void actionPerformed(){
-                   JFrame listFrame = new JFrame(); 
-                   listFrame.add(new AppointmentListPane(parentF, i+1, 
+                public void actionPerformed(ActionEvent e){
+                    JButton src = (JButton) e.getSource();
+                    int day = Integer.valueOf(src.getText());
+                    JFrame listFrame = new JFrame(); 
+                    listFrame.add(new AppointmentListPane(parentF, day, 
                                Integer.valueOf(month),
-                               Integer.valueOf(year)));
-                   listFrame.setSize(AppointmentListPane.PREF_DIMS);
+                               Integer.valueOf(year),
+                               partner));
+                    listFrame.setSize(AppointmentListPane.PREF_DIMS);
+                    listFrame.setVisible(true);
 
                 }
             });
         }
-    }*/
+    }
     
     private String month = null;
     private String year = null;
