@@ -22,33 +22,50 @@ public class TreatmentsTable extends JPanel{
     }
     
     public void update(String patID){
-        try{
         //Get appointments 
         //Get most recent appointment
-            String recAppt = "";
-            ResultSet rs = qHand.executeQueryRS(recAppt);
-        //Extract date+time+partn from it
-
-        //Get treatments matching the date+time+partn
-            String relTreats = "";
-            rs = qHand.executeQueryRS(relTreats);
-
-
-        //Create new Object[2][x] table listing treatment name and cost
-        }catch(InstantiationException e){
-            throw new RuntimeException("Instantiation ex");
-        }catch(IllegalAccessException e){
-            throw new RuntimeException("Illegal access ex");
-        }
+        String recAppt = "SELECT * FROM Appointment WHERE "+
+            "patientID = '"+patID+"' ORDER BY date DESC LIMIT 1;";
+        String[] recApptRes = qHand.executeQuery(recAppt);
         
-        //Call call init table with update data[][]
+        if(recApptRes == null){
+            JOptionPane.showMessageDialog(parentF, "Cannot find patient.");
+        }
+        else{
+            //Extract date+time+partn from it
+            //SEE TABLE STRUCT, DATE=COL0, STIME=COL1, PARTN=COL4
+            String date = recApptRes[0];
+            String startTime = recApptRes[1];
+            String partn = recApptRes[4];
 
-        //Repaint window...
-        //call removeAll() to get rid of all comps
-        //create new scroll pane
-        //put table in pane
-        //revalidate
-        //repaint
+            //Get treatments matching the date+time+partn
+            String relatedTreats = "SELECT treatName, cost FROM Treatment WHERE "+
+                "date = '"+date+"' AND startTime = '"+startTime+"' AND "+
+                "partner = '"+partn+"';";
+            String[][] treatResults = qHand.executeQueryFull(relatedTreats);
+        
+            if(treatResults != null){
+                //Pass refernce to newly recovered data to data
+                data = treatResults;
+        
+                //Call call init table with update data[][]
+                initTable();
+                //Repaint window...
+                //call removeAll() to get rid of all comps
+                removeAll();
+                //create new scroll pane
+                scrollPane = new JScrollPane(treatTable);
+                //put table in pane
+                add(scrollPane);
+                //revalidate
+                revalidate();
+                //repaint
+                repaint();
+            }
+            else{
+                JOptionPane.showMessageDialog(parentF, "No treatments found.");
+            }
+        }
     }
 
     String[] colNames = {"Treatment", "Cost"};

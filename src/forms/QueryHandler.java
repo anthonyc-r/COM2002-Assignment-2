@@ -46,6 +46,7 @@ public class QueryHandler{
     public String[] executeQuery(String qri){
     	Object[] connectionObjs = null;
         ResultSet rs = null;
+
         LOGGER.info("Getting result set.");
         try{
         	connectionObjs = executeQueryRS(qri);
@@ -197,7 +198,7 @@ public class QueryHandler{
         //Need to iterate over it to conver it.
         //return (String[][])AryReturnStr.toArray();
         noRows = AryReturnStr.size();
-        String[][] returnStr = new String[noCols][noRows];
+        String[][] returnStr = new String[noRows][noCols];
         for(int i=0; i<noRows; i++){
             returnStr[i] = AryReturnStr.get(i);
         }
