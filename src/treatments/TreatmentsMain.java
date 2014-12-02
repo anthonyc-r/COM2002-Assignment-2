@@ -40,7 +40,7 @@ public class TreatmentsMain extends JPanel{
         //Set cost due in patient to 0.
         String updt = "";
         int status = qHand.executeUpdate(updt);
-        if(stauts >= 0){    
+        if(status >= 0){    
             JOptionPane.showMessageDialog(parentF, "Amount owed by patient"+
                     "set to 0.00");
         }else{
