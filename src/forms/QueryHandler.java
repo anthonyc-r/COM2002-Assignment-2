@@ -1,4 +1,4 @@
-package DBTEST05;
+package forms;
 
 import java.util.logging.Logger;
 import java.sql.*;
@@ -110,7 +110,7 @@ public class QueryHandler{
         Connection conn = null;
 		try {
     		conn = DriverManager.getConnection("jdbc:mysql:"+
-                    "//stusql.dcs.shef.ac.uk/?"+
+                    "//stusql.dcs.shef.ac.uk/"+usr+"?"+
                     "user="+usr+
                     "&password="+pwd);
             //Check connection success
