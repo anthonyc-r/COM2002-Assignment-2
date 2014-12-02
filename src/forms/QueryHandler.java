@@ -137,8 +137,13 @@ public class QueryHandler{
 
 
     public String[][] executeQueryFull(String qri){
-    	Object[] connectionObjs = null;
+    	
+        Object[] connectionObjs = null;
         ResultSet rs = null;
+
+        int noRows = 0;
+        int noCols = 0;
+
         LOGGER.info("Getting result set.");
         try{
         	connectionObjs = executeQueryRS(qri);
@@ -156,7 +161,7 @@ public class QueryHandler{
             ResultSetMetaData rsmd = rs.getMetaData();
             LOGGER.info("Got meta data");
             int currentRow = 0;
-            int noCols = rsmd.getColumnCount();
+            noCols = rsmd.getColumnCount();
             LOGGER.info("Data indicates there are "+noCols+" columns.");
             //check if it's empty & ifnot move to first row
             if(!rs.next()){
@@ -188,7 +193,16 @@ public class QueryHandler{
 				//ignore
 			}
 		}
-        return (String[][])AryReturnStr.toArray();
+        //Can't cast (String[][])..toAray().
+        //Need to iterate over it to conver it.
+        //return (String[][])AryReturnStr.toArray();
+        noRows = AryReturnStr.size();
+        String[][] returnStr = new String[noCols][noRows];
+        for(int i=0; i<noRows; i++){
+            returnStr[i] = AryReturnStr.get(i);
+        }
+
+        return returnStr;
     }
 
 
