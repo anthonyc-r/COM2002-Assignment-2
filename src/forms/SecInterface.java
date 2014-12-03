@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import treatments.TreatmentsMain;
+import calendar.CalendarMain;
+import interfaces.DPanel;
+
 public class SecInterface extends JFrame {
 	
 	public SecInterface () {
@@ -27,14 +31,14 @@ public class SecInterface extends JFrame {
 			"Register Address"
 		};
 		JButton[] buttons = new JButton[buttonText.length];
-		final JPanel [] listeners = {
-            null,
+		final DPanel [] listeners = {
+            new CalendarMain(frame),
             new BookAppointment(frame),
+            new SubscribePatient(frame),
             null,
             null,
-            null,
-            null,
-            null,
+            new RegisterPatient(frame),
+            new RegisterAddress(frame),
 		};
 
 		for (int i=0; i<buttonText.length; i++) {
@@ -44,11 +48,11 @@ public class SecInterface extends JFrame {
 			final int j = i;
 			buttons[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JPanel child = listeners[j];
+					DPanel child = listeners[j];
 					JFrame frame = new JFrame();
-					frame.add(child);
-					frame.setSize(200, 200);
-					frame.setResizable(true);
+					frame.add((JPanel)child);
+					frame.setSize(((DPanel)child).getPrefDims());
+					frame.setResizable(false);
 					frame.setVisible(true);
 				}
 			});

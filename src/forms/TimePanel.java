@@ -20,6 +20,9 @@ class TimePanel extends JPanel{
     public String getMinutes(){
         return fields.get("minutes").getText();
     }
+    public String getSQLTime(){
+        return getHours()+":"+getMinutes()+":00";
+    }
       
     private LinkedHashMap<String, JTextField> fields = null;
 }

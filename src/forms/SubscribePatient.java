@@ -1,11 +1,13 @@
-package DBTEST05;
+package forms;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class SubscribePatient extends JPanel{
+import interfaces.DPanel;
+
+public class SubscribePatient extends JPanel implements DPanel{
     //testing
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -20,7 +22,7 @@ public class SubscribePatient extends JPanel{
     public SubscribePatient(JFrame parentF){
         labels = new LinkedHashMap<String, JLabel>();
         fields = new LinkedHashMap<String, JComponent>(); 
-        qHand = new QueryHandler("uname", "pwd");
+        qHand = new QueryHandler("team016", "eabb6f40");
         this.parentF = parentF;
 
         setLayout(new GridLayout(0, 2));
@@ -29,23 +31,20 @@ public class SubscribePatient extends JPanel{
         setListeners();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
     }
+
+    public Dimension getPrefDims(){
+        return SubscribePatient.PREF_DIMS;
+    }
     
     private void initFields(){
         //Ket the labels done first
         labels.put("patID", new JLabel("PatientID:"));
         labels.put("plan", new JLabel("Plan:"));
         //Setup combo box...
-        JComboBox cmBox = new JComboBox();
         //Get different plan names from db
-        String[] res = qHand.executeQuery(null);
-        if(res != null){
-            for(String name : res){
-                //Add name to cmBox       
-            }
-        }
         //Fields...
         fields.put("patID", new JTextField(10));
-        fields.put("plan", cmBox);
+        fields.put("plan", new JTextField(10));
     }
 
     private void addFields(){
