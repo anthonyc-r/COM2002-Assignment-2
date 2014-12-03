@@ -1,4 +1,4 @@
-package DBTEST06;
+package forms;
 
 import java.util.logging.Logger;
 import java.sql.*;

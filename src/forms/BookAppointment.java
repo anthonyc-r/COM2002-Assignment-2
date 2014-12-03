@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class BookAppointment extends JPanel{
+import interfaces.DPanel;
+
+public class BookAppointment extends JPanel implements DPanel{
     //testing
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -28,6 +30,10 @@ public class BookAppointment extends JPanel{
         addFields();
         setListeners();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
+    }
+
+    public Dimension getPrefDims(){
+        return BookAppointment.PREF_DIMS;
     }
 
     private void initFields(){

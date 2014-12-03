@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class RegisterPatient extends JPanel{
+import interfaces.DPanel;
+
+public class RegisterPatient extends JPanel implements DPanel{
     
     //Testing
     public static void main(String[] args){
@@ -32,6 +34,10 @@ public class RegisterPatient extends JPanel{
         addFields();
         setListeners();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
+    }
+
+    public Dimension getPrefDims(){
+        return RegisterPatient.PREF_DIMS;
     }
 
     private void initFields(){		

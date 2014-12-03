@@ -3,8 +3,9 @@ package calendar;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import interfaces.DPanel;
 
-public class CalendarMain extends JPanel{
+public class CalendarMain extends JPanel implements DPanel{
     
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -15,6 +16,10 @@ public class CalendarMain extends JPanel{
         frame.setResizable(false);
     }
     
+    public Dimension getPrefDims(){
+        return CalendarMain.PREF_DIMS;
+    }
+
     public CalendarMain(JFrame parentF){
         //Layout needs fixing
         setLayout(null);

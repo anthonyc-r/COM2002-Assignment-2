@@ -6,7 +6,9 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class RegisterAddress extends JPanel{
+import interfaces.DPanel;
+
+public class RegisterAddress extends JPanel implements DPanel{
     //testing
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -29,6 +31,10 @@ public class RegisterAddress extends JPanel{
         addFields();
         setListeners();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
+    }
+
+    public Dimension getPrefDims(){
+        return RegisterAddress.PREF_DIMS;
     }
 
     private void initFields(){

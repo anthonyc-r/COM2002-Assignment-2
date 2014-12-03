@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+package forms;
+=======
 package DBTEST06;
+>>>>>>> 0d1933037f0971cb088c3e0868cf4b75914e50d7
 
 import javax.swing.*;
 
@@ -6,7 +10,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class SubscribePatient extends JPanel{
+import interfaces.DPanel;
+
+public class SubscribePatient extends JPanel implements DPanel{
     //testing
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -30,11 +36,22 @@ public class SubscribePatient extends JPanel{
         setListeners();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
     }
+
+    public Dimension getPrefDims(){
+        return SubscribePatient.PREF_DIMS;
+    }
     
     private JComboBox initFields(){
         //Ket the labels done first
         labels.put("patID", new JLabel("PatientID:"));
         labels.put("plan", new JLabel("Plan:"));
+<<<<<<< HEAD
+        //Setup combo box...
+        //Get different plan names from db
+        //Fields...
+        fields.put("patID", new JTextField(10));
+        fields.put("plan", new JTextField(10));
+=======
         //Get different plan names from db
         String[][] res = qHand.executeQueryFull("SELECT planName FROM CarePlan");
         String[] res1d = new String[res.length];
@@ -51,6 +68,7 @@ public class SubscribePatient extends JPanel{
         fields.put("plan", cmBox);
         
         return cmBox;
+>>>>>>> 0d1933037f0971cb088c3e0868cf4b75914e50d7
     }
 
     private void addFields(){
