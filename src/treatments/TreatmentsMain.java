@@ -72,7 +72,7 @@ public class TreatmentsMain extends JPanel implements DPanel{
         String patID = pSelPane.getPatientID();
         //Set cost due in patient to 0.
         String updt = "UPDATE Patient "+
-                        "SET amountDue = 0 "+
+                        "SET amountOwed = 0 "+
                         "WHERE patientID = '"+patID+"';";
         int status = qHand.executeUpdate(updt);
 

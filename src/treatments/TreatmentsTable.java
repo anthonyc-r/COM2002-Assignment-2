@@ -53,7 +53,7 @@ public class TreatmentsTable extends JPanel{
     
 	public String returnTreatmentsForPatient(String patId) {
     	String appForPatient = ("(SELECT date, startTime, partner FROM Appointment WHERE patientID = " + patId + ")");
-    	String treatForPatient = ("SELECT * FROM Treatment WHERE (date, startTime, partner) IN " + appForPatient);
+    	String treatForPatient = ("SELECT treatName, date, startTime, partner, cost FROM Treatment WHERE (date, startTime, partner) IN " + appForPatient);
     	return treatForPatient;
     	//needs a semi-colon added at the end
     }
