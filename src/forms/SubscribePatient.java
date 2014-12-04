@@ -90,7 +90,7 @@ public class SubscribePatient extends JPanel implements DPanel{
                     //Insert into db
                     qHand.executeUpdate(
                     		"INSERT INTO Subscription VALUES ('"+
-                    			patID+"', "+
+                    			patID+"', '"+
                     			plan+"');"
                     	);
                     JOptionPane.showMessageDialog(parentF, "Patient "+
