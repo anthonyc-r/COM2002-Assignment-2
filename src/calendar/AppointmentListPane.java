@@ -13,6 +13,7 @@ public class AppointmentListPane extends JPanel{
         this.day = day;
         this.month = month;
         this.year = year;
+        this.partner = partner;
         
         setLayout(new BorderLayout());
 
@@ -27,7 +28,8 @@ public class AppointmentListPane extends JPanel{
         String getAppointments = "SELECT "+
             "patientID, partner, startTime, endTime "+
             "FROM Appointment "+
-            "WHERE date = '"+year+"-"+month+"-"+day+"';";
+            "WHERE date = '"+year+"-"+month+"-"+day+"' "+
+            "AND partner = '"+partner+"';";
         String[][] appResults = qHand.executeQueryFull(getAppointments);
         //if null no appointments
         if(appResults == null){
@@ -50,6 +52,7 @@ public class AppointmentListPane extends JPanel{
     private JScrollPane tabScroll = null;
 
     private int day, month, year;
+    private Partner partner = null;
     private String[] tabHead = {"PatientID", "Partner", "Start", "End"};
     private String[][] data = null;
     private QueryHandler qHand = null;
