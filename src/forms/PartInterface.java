@@ -15,7 +15,6 @@ public class PartInterface extends JFrame {
 	}
 	
 	private void initUI() {
-		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2, 1, 5, 5));
 		String[] buttonText = {
@@ -23,9 +22,13 @@ public class PartInterface extends JFrame {
 			"Record Treatment",
 		};
 		JButton[] buttons = new JButton[buttonText.length];
+        final JFrame[] frames = {
+            new JFrame(),
+            new JFrame()
+        };
 		final DPanel [] listeners = {
-            new CalendarMain(frame),
-            new RecordTreatment(frame),
+            new CalendarMain(frames[0]),
+            new RecordTreatment(frames[1]),
 		};
 
 		for (int i=0; i<buttonText.length; i++) {
@@ -36,11 +39,10 @@ public class PartInterface extends JFrame {
 			buttons[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DPanel child = listeners[j];
-					JFrame frame = new JFrame();
-					frame.add((JPanel)child);
-					frame.setSize(child.getPrefDims());
-					frame.setResizable(true);
-					frame.setVisible(true);
+					frames[j].add((JPanel)child);
+					frames[j].setSize(child.getPrefDims());
+					frames[j].setResizable(true);
+					frames[j].setVisible(true);
 				}
 			});
 		}

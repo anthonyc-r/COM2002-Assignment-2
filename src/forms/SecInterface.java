@@ -19,7 +19,7 @@ public class SecInterface extends JFrame {
 	}
 	
 	private void initUI() {
-		JFrame frame = new JFrame();
+		JFrame frame = null;
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0, 1, 5, 5));
 		String[] buttonText = {
@@ -33,30 +33,42 @@ public class SecInterface extends JFrame {
             "Get Patient ID"
 		};
 		JButton[] buttons = new JButton[buttonText.length];
-		final DPanel [] listeners = {
-            new CalendarMain(frame),
-            new BookAppointment(frame),
-            new SubscribePatient(frame),
-            new TreatmentsMain(frame),
-            new ModifyOwed(frame),
-            new RegisterPatient(frame),
-            new RegisterAddress(frame),
-            new GetID(frame)
+		
+        final JFrame[] frames = {
+            new JFrame(),
+            new JFrame(),
+            new JFrame(),
+            new JFrame(),
+            new JFrame(),
+            new JFrame(),
+            new JFrame(),
+            new JFrame()
+        };
+        
+        final DPanel [] listeners = {
+            new CalendarMain(frames[0]),
+            new BookAppointment(frames[1]),
+            new SubscribePatient(frames[2]),
+            new TreatmentsMain(frames[3]),
+            new ModifyOwed(frames[4]),
+            new RegisterPatient(frames[5]),
+            new RegisterAddress(frames[6]),
+            new GetID(frames[7])
 		};
 
 		for (int i=0; i<buttonText.length; i++) {
-			buttons[i] = new JButton();
+            buttons[i] = new JButton();
 			panel.add(buttons[i]);
 			buttons[i].setText(buttonText[i]);
 			final int j = i;
 			buttons[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DPanel child = listeners[j];
-					JFrame frame = new JFrame();
-					frame.add((JPanel)child);
-					frame.setSize(((DPanel)child).getPrefDims());
-					frame.setResizable(true);
-					frame.setVisible(true);
+					//JFrame frame = new JFrame();
+					frames[j].add((JPanel)child);
+					frames[j].setSize(((DPanel)child).getPrefDims());
+					frames[j].setResizable(true);
+					frames[j].setVisible(true);
 				}
 			});
 		}
