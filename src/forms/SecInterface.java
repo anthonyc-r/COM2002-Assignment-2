@@ -55,7 +55,7 @@ public class SecInterface extends JFrame {
 					JFrame frame = new JFrame();
 					frame.add((JPanel)child);
 					frame.setSize(((DPanel)child).getPrefDims());
-					frame.setResizable(false);
+					frame.setResizable(true);
 					frame.setVisible(true);
 				}
 			});
