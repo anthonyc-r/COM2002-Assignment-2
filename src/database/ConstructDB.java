@@ -61,7 +61,7 @@ public class ConstructDB {
 		//Subscriptions - linker between patients and Patient and CarePlan tables
 
 		String createSub =		"CREATE TABLE Subscription" +
-								"(patientID INTEGER not NULL, " +
+								"(patientID INTEGER not NULL AUTO_INCREMENT, " +
 								"planName VARCHAR(30) not NULL, " +
 								"PRIMARY KEY (patientID, planName), " +
 								"FOREIGN KEY (patientID) REFERENCES Patient (patientID)," +
@@ -81,20 +81,21 @@ public class ConstructDB {
 		//Treatments
 
 		String createTreatment = "CREATE TABLE Treatment " +
-								"(treatName VARCHAR(30) not NULL, " +
+                                "(treatID INTEGER NOT NULL AUTO_INCREMENT," +
+								"treatName VARCHAR(30) not NULL, " +
 								"date DATE not NULL, " +
 								"startTime TIME, " +
 								"partner VARCHAR(30), " +
 								"cost FLOAT, " + 
-								"PRIMARY KEY (treatName)," +
+								"PRIMARY KEY (treatID)," +
 								"FOREIGN KEY (date, startTime, partner) REFERENCES Appointment (date, startTime, partner));";
 
-		stmt.executeUpdate(createPatient);
-        stmt.executeUpdate(createAddress);
-        stmt.executeUpdate(createTreatment);
-        stmt.executeUpdate(createSub);
-        stmt.executeUpdate(createCarePlan);
-        stmt.executeUpdate(createAppoint);
+		stmt.executeUpdate(createTreatment);
+        //stmt.executeUpdate(createAddress);
+        //stmt.executeUpdate(createTreatment);
+        //stmt.executeUpdate(createSub);
+        //stmt.executeUpdate(createCarePlan);
+        //stmt.executeUpdate(createAppoint);
 
 
 		} catch(SQLException ex) {
