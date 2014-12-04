@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import interfaces.DPanel;
+import calendar.CalendarMain;
+
 public class PartInterface extends JFrame {
 	
 	public PartInterface() {
@@ -20,9 +23,9 @@ public class PartInterface extends JFrame {
 			"Record Treatment",
 		};
 		JButton[] buttons = new JButton[buttonText.length];
-		final JPanel [] listeners = {
-            null,
-            null,
+		final DPanel [] listeners = {
+            new CalendarMain(frame),
+            new RecordTreatment(frame),
 		};
 
 		for (int i=0; i<buttonText.length; i++) {
@@ -32,10 +35,10 @@ public class PartInterface extends JFrame {
 			final int j = i;
 			buttons[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JPanel child = listeners[j];
+					DPanel child = listeners[j];
 					JFrame frame = new JFrame();
-					frame.add(child);
-					frame.setSize(200, 200);
+					frame.add((JPanel)child);
+					frame.setSize(child.getPrefDims());
 					frame.setResizable(true);
 					frame.setVisible(true);
 				}
@@ -44,7 +47,7 @@ public class PartInterface extends JFrame {
 		
 		add(panel);
 		
-		setTitle("place-holder");
+		setTitle("Partners' Interface");
 		setSize(500, 142);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

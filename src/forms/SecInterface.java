@@ -63,7 +63,7 @@ public class SecInterface extends JFrame {
 		
 		add(panel);
 		
-		setTitle("place-holder");
+		setTitle("Secretary's Interface");
 		setSize(500, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
