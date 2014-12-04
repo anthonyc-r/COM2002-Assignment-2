@@ -83,91 +83,48 @@ public class TreatmentsTable extends JPanel{
 		int totalHygeine = 0;
 		int totalRepairs = 0;
 		float totalCost = 0;
-    	switch (qHand.executeQueryFull(carePlan)[0][0]) {
-    		case "NHS free" :
+		String[] treatNames = new String[patTreats.length];
+		String[][] plan = qHand.executeQueryFull(carePlan);
+		if (plan == null) {
+			return returnTreatmentsTotalCost(patTreats);
+		}
+    	switch (plan[0][0]) {
+    		case "NHS free plan" :
     			totalCheckUps = 2;
     			totalHygeine = 2;
     			totalRepairs = 6;
-    			for (int x=0;x<patTreats.length;x++) {
-    				String treatName = patTreats[x][0].toString();
-    				if ((treatName.equals("check up")) && (checkUps != totalCheckUps)) {
-    					checkUps++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("hygeine visit") && (hygeineVisits != totalHygeine)) {
-    					hygeineVisits++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("repair") && (repairs != totalRepairs)) {
-    					repairs++;
-    					patTreats[x][0] = "N/A";
-    				}
-    	    	}
     			break;
-    		case "maintenance" :
+    		case "maintenance plan" :
     			totalCheckUps = 2;
     			totalHygeine = 2;
     			totalRepairs = 0;
-    			for (int x=0;x<patTreats.length;x++) {
-    				String treatName = patTreats[x][0].toString();
-    				if ((treatName.equals("check up")) && (checkUps != totalCheckUps)) {
-    					checkUps++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("hygeine visit") && (hygeineVisits != totalHygeine)) {
-    					hygeineVisits++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("repair") && (repairs != totalRepairs)) {
-    					repairs++;
-    					patTreats[x][0] = "N/A";
-    				}
-    	    	}
     			break;
-    		case "oral health" :
+    		case "oral health plan" :
     			totalCheckUps = 2;
     			totalHygeine = 4;
     			totalRepairs = 0;
-    			for (int x=0;x<patTreats.length;x++) {
-    				String treatName = patTreats[x][0].toString();
-    				if ((treatName.equals("check up")) && (checkUps != totalCheckUps)) {
-    					checkUps++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("hygeine visit") && (hygeineVisits != totalHygeine)) {
-    					hygeineVisits++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("repair") && (repairs != totalRepairs)) {
-    					repairs++;
-    					patTreats[x][0] = "N/A";
-    				}
-    	    	}
     			break;
-    		case "dental repair" :
+    		case "dental repair plan" :
     			totalCheckUps = 2;
     			totalHygeine = 2;
     			totalRepairs = 2;
-    			for (int x=0;x<patTreats.length;x++) {
-    				String treatName = patTreats[x][0].toString();
-    				if ((treatName.equals("check up")) && (checkUps != totalCheckUps)) {
-    					checkUps++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("hygeine visit") && (hygeineVisits != totalHygeine)) {
-    					hygeineVisits++;
-    					patTreats[x][0] = "N/A";
-    				}
-    				if (treatName.equals("repair") && (repairs != totalRepairs)) {
-    					repairs++;
-    					patTreats[x][0] = "N/A";
-    				}
-    	    	}
     			break;
-    		default : return returnTreatmentsTotalCost(patTreats);
     	}
     	for (int x=0;x<patTreats.length;x++) {
-    		if (patTreats[x][0] != "N/A") {
+			String treatName = patTreats[x][0].toString();
+			if ((treatName.equals("check up")) && (checkUps != totalCheckUps)) {
+				checkUps++;
+				treatNames[x] = "N/A";
+			} else if (treatName.equals("hygeine visit") && (hygeineVisits != totalHygeine)) {
+				hygeineVisits++;
+				treatNames[x] = "N/A";
+			} else if (treatName.equals("repair") && (repairs != totalRepairs)) {
+				repairs++;
+				treatNames[x] = "N/A";
+			}
+    	}
+    	for (int x=0;x<treatNames.length;x++) {
+    		if (treatNames[x] != "N/A") {
     			String input = patTreats[x][4].toString();
     			totalCost = totalCost + Float.valueOf(input);
    	     	} 
