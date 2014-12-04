@@ -4,8 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import forms.QueryHandler;
+import interfaces.DPanel;
 
-public class TreatmentsMain extends JPanel{
+public class TreatmentsMain extends JPanel implements DPanel{
 
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -19,7 +20,8 @@ public class TreatmentsMain extends JPanel{
 
     public TreatmentsMain(JFrame parentF){
         this.parentF = parentF;
-        treatTable = new TreatmentsTable(parentF);
+        qHand = new QueryHandler("team016", "eabb6f40");
+        treatTable = new TreatmentsTable(parentF, this);
         pSelPane = new PatientSelectionPane(parentF, treatTable);
         submitButton = new JButton("Paid");
 
@@ -56,6 +58,15 @@ public class TreatmentsMain extends JPanel{
         costDueF.setBounds(165, 475, 80, 15);
     }
 
+    public Dimension getPrefDims(){
+        return TreatmentsMain.PREF_DIMS;
+    }
+
+    public void updateFields(String total, String owed){
+        totalF.setText(total);
+        costDueF.setText(owed);
+    }
+
     private void updateCostsDue(){
         //Get vars
         String patID = pSelPane.getPatientID();
@@ -64,6 +75,7 @@ public class TreatmentsMain extends JPanel{
                         "SET amountDue = 0 "+
                         "WHERE patientID = '"+patID+"';";
         int status = qHand.executeUpdate(updt);
+
         if(status >= 0){    
             JOptionPane.showMessageDialog(parentF, "Amount owed by patient"+
                     "set to 0.00");

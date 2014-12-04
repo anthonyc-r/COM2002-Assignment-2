@@ -1,4 +1,4 @@
-package DBTEST06;
+package forms;
 
 import javax.swing.*;
 
@@ -6,7 +6,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class GetID extends JPanel{
+import interfaces.DPanel;
+
+public class GetID extends JPanel implements DPanel{
     //testing
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -29,6 +31,10 @@ public class GetID extends JPanel{
         addFields();
         setListeners();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
+    }
+
+    public Dimension getPrefDims(){
+        return GetID.PREF_DIMS;
     }
     
     private void initFields(){
@@ -112,5 +118,5 @@ public class GetID extends JPanel{
     //Constants...
     public static final int PANEL_WIDTH = 230;
     public static final int PANEL_HEIGHT = 245;
-    public static final Dimension PREF_DIMS = new Dimension(300, 300);
+    public static final Dimension PREF_DIMS = new Dimension(300, 210);
 }

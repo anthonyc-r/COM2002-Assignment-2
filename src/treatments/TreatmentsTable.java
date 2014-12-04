@@ -6,12 +6,13 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import java.sql.*;
-//import forms.QueryHandler;
+import forms.QueryHandler;
 
 public class TreatmentsTable extends JPanel{
 
-    public TreatmentsTable(JFrame parentF){
+    public TreatmentsTable(JFrame parentF, TreatmentsMain mainPanel){
         this.parentF = parentF;
+        this.mainPanel = mainPanel;
         qHand = new QueryHandler("team016", "eabb6f40");
         setLayout(new BorderLayout());       
         initTable(); 
@@ -30,9 +31,11 @@ public class TreatmentsTable extends JPanel{
                 JOptionPane.showMessageDialog(parentF, "Cannot find patient.");
             }
         	//totalCost
-        	JOptionPane.showMessageDialog(parentF, (Float.toString(returnTreatmentsTotalCost(data))));
+        	String totCost = String.valueOf(returnTreatmentsTotalCost(data));
         	//costDue
-        	JOptionPane.showMessageDialog(parentF, (Float.toString(returnTotalCostWithCarePlan(patID, data))));
+        	String costDue = String.valueOf(returnTotalCostWithCarePlan(patID, data));
+            //update field values for cost due and total owed
+            mainPanel.updateFields(totCost, costDue);
             //Call call init table with update data[][]
         	initTable();
         	//Repaint window...
@@ -181,4 +184,5 @@ public class TreatmentsTable extends JPanel{
     private JScrollPane scrollPane = null;
 
     private QueryHandler qHand = null;
+    private TreatmentsMain mainPanel = null;
 }

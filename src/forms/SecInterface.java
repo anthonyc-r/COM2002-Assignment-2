@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import treatments.TreatmentsMain;
 import calendar.CalendarMain;
 import interfaces.DPanel;
+import treatments.TreatmentsMain;
 
 public class SecInterface extends JFrame {
 	
@@ -20,7 +21,7 @@ public class SecInterface extends JFrame {
 	private void initUI() {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(7, 1, 5, 5));
+		panel.setLayout(new GridLayout(0, 1, 5, 5));
 		String[] buttonText = {
 			"View Appointments",
 			"Book Appointment",
@@ -28,17 +29,19 @@ public class SecInterface extends JFrame {
 			"Review Treatments",
 			"Modify Owed",
 			"Register Patient",
-			"Register Address"
+			"Register Address",
+            "Get Patient ID"
 		};
 		JButton[] buttons = new JButton[buttonText.length];
 		final DPanel [] listeners = {
             new CalendarMain(frame),
             new BookAppointment(frame),
             new SubscribePatient(frame),
-            null,
-            null,
+            new TreatmentsMain(frame),
+            new ModifyOwed(frame),
             new RegisterPatient(frame),
             new RegisterAddress(frame),
+            new GetID(frame)
 		};
 
 		for (int i=0; i<buttonText.length; i++) {

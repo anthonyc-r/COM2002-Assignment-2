@@ -1,4 +1,4 @@
-package DBTEST06;
+package forms;
 
 import javax.swing.*;
 
@@ -6,7 +6,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class ModifyOwed extends JPanel{
+import interfaces.DPanel;
+
+public class ModifyOwed extends JPanel implements DPanel{
     //testing
     public static void main(String[] args){
         JFrame frame = new JFrame();
@@ -29,6 +31,10 @@ public class ModifyOwed extends JPanel{
         addFields();
         setListeners();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
+    }
+
+    public Dimension getPrefDims(){
+        return ModifyOwed.PREF_DIMS;
     }
     
     private void initFields(){
@@ -101,5 +107,5 @@ public class ModifyOwed extends JPanel{
     //Constants...
     public static final int PANEL_WIDTH = 230;
     public static final int PANEL_HEIGHT = 245;
-    public static final Dimension PREF_DIMS = new Dimension(230, 150);
+    public static final Dimension PREF_DIMS = new Dimension(230, 120);
 }
