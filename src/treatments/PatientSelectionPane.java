@@ -36,7 +36,8 @@ public class PatientSelectionPane extends JPanel{
     private void addListeners(){
         goButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                updateTable();                
+                updateTable(); 
+                
             }
         });
     }
