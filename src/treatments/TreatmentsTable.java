@@ -88,28 +88,23 @@ public class TreatmentsTable extends JPanel{
 		if (plan == null) {
 			return returnTreatmentsTotalCost(patTreats);
 		}
-    	switch (plan[0][0]) {
-    		case "NHS free plan" :
-    			totalCheckUps = 2;
-    			totalHygeine = 2;
-    			totalRepairs = 6;
-    			break;
-    		case "maintenance plan" :
-    			totalCheckUps = 2;
-    			totalHygeine = 2;
-    			totalRepairs = 0;
-    			break;
-    		case "oral health plan" :
-    			totalCheckUps = 2;
-    			totalHygeine = 4;
-    			totalRepairs = 0;
-    			break;
-    		case "dental repair plan" :
-    			totalCheckUps = 2;
-    			totalHygeine = 2;
-    			totalRepairs = 2;
-    			break;
-    	}
+    	if ((plan[0][0]) == "NHS free plan") {
+    		totalCheckUps = 2;
+    		totalHygeine = 2;
+    		totalRepairs = 6;
+        } else if ((plan[0][0]) ==  "maintenance plan") {
+			totalCheckUps = 2;
+			totalHygeine = 2;
+			totalRepairs = 0;
+        } else if ((plan[0][0]) ==  "oral health plan") {
+			totalCheckUps = 2;
+			totalHygeine = 4;
+			totalRepairs = 0;
+        } else if ((plan[0][0]) ==  "dental repair plan") {
+			totalCheckUps = 2;
+			totalHygeine = 2;
+			totalRepairs = 2;
+        }
     	for (int x=0;x<patTreats.length;x++) {
 			String treatName = patTreats[x][0].toString();
 			if ((treatName.equals("check up")) && (checkUps != totalCheckUps)) {
