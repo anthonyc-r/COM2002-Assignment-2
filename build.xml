@@ -1,7 +1,7 @@
 <project>
 
     <path id="classpath">
-        <fileset dir="JC_DRIVER/" includes="**/*.jar"/>
+        <fileset dir="JC_DRIVER" includes="**/*.jar"/>
     </path>
 
     <target name="clean">
@@ -10,7 +10,30 @@
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes" classpathref="classpath"/> 
+        <javac srcdir="src" destdir="build/classes"> 
+            <classpath>
+                <fileset dir="JC_DRIVER">
+                    <include name="driver.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/PartnerInterface.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="forms.PartInterface"/>
+            </manifest>
+            <zipgroupfileset dir="JC_DRIVER" includes="driver.jar"/>
+        </jar>
+
+        <jar destfile="build/jar/SecretaryInterface.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="forms.SecInterface"/>
+            </manifest>
+            <zipgroupfileset dir="JC_DRIVER" includes="driver.jar"/>
+        </jar>
     </target>
 
 </project>
