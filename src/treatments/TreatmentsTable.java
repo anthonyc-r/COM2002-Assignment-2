@@ -88,19 +88,19 @@ public class TreatmentsTable extends JPanel{
 		if (plan == null) {
 			return returnTreatmentsTotalCost(patTreats);
 		}
-    	if ((plan[0][0]) == "NHS free plan") {
+    	if ((plan[0][0]).equals("NHS free plan")) {
     		totalCheckUps = 2;
     		totalHygeine = 2;
     		totalRepairs = 6;
-        } else if ((plan[0][0]) ==  "maintenance plan") {
+        } else if ((plan[0][0]).equals("maintenance plan")) {
 			totalCheckUps = 2;
 			totalHygeine = 2;
 			totalRepairs = 0;
-        } else if ((plan[0][0]) ==  "oral health plan") {
+        } else if ((plan[0][0]).equals("oral health plan")) {
 			totalCheckUps = 2;
 			totalHygeine = 4;
 			totalRepairs = 0;
-        } else if ((plan[0][0]) ==  "dental repair plan") {
+        } else if ((plan[0][0]).equals("dental repair plan")) {
 			totalCheckUps = 2;
 			totalHygeine = 2;
 			totalRepairs = 2;
